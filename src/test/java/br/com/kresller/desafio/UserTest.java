@@ -83,6 +83,8 @@ public class UserTest {
 		Assert.assertEquals(newUser.getLogin(), jsonUser.getString("login"));
 		Assert.assertEquals(newUser.getPassword(), jsonUser.getString("password"));
 		Assert.assertEquals(newUser.getPhone(), jsonUser.getString("phone"));
+		
+		newUser.setId(jsonUser.getInt("id"));
 
 		Assert.assertEquals(HttpStatus.CREATED.value(), result.getStatusCode().value());
 	}
@@ -133,6 +135,26 @@ public class UserTest {
 			Assert.assertEquals(Constants.ERROR_MISSING_FIELDS, json.getString("message"));
 			Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), json.getInt("errorCode"));
 		}
+	}
+	
+	/**
+	 * Cria um novo usuário e valida se ele foi persistido no banco de dados com sucesso.
+	 */
+	@Test
+	public void test8FindUserById() throws Exception {
+		newUser.setFirstName("UserTestCase FirstName");
+		
+		ResponseEntity<String> result = DefaultTest.getInstance().exchange("users/"+newUser.getId());
+		
+		JSONObject jsonUser = new JSONObject(result.getBody());
+		Assert.assertEquals(newUser.getFirstName(), jsonUser.getString("firstName"));
+		Assert.assertEquals(newUser.getLastName(), jsonUser.getString("lastName"));
+		Assert.assertEquals(newUser.getEmail(), jsonUser.getString("email"));
+		Assert.assertEquals(newUser.getLogin(), jsonUser.getString("login"));
+		Assert.assertEquals(newUser.getPassword(), jsonUser.getString("password"));
+		Assert.assertEquals(newUser.getPhone(), jsonUser.getString("phone"));
+
+		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
 	}
 
 }
