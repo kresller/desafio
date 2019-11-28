@@ -38,6 +38,11 @@ public class UserTest {
 		credentials.setPassword("123456");
 		ResponseEntity<String> response = DefaultTest.getInstance().postForEntity("signin", credentials);
 		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+		
+		String token = response.getHeaders().get(Constants.HEADER_AUTHORIZATION).get(0);
+
+		DefaultTest.getInstance().addToken(token);
+		
 	}
 	
 	@Test
@@ -173,6 +178,27 @@ public class UserTest {
 		JSONObject json = new JSONObject(result.getBody());
 		Assert.assertEquals(newUser.getFirstName(), json.getString("firstName"));
 		Assert.assertEquals(newUser.getLastName(), json.getString("lastName"));
+	}
+	
+	@Test
+	public void test11MyUser() throws Exception {
+		ResponseEntity<String> result = DefaultTest.getInstance().exchange("me"); // Usuario cadastrado no banco e logado
+		JSONObject jsonUser = new JSONObject(result.getBody());
+		Assert.assertEquals("kresller", jsonUser.getString("firstName"));
+		Assert.assertEquals("silva", jsonUser.getString("lastName"));
+		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+	}
+	
+	@Test
+	public void test11MyUserWithoutToken() throws Exception {
+		DefaultTest.getInstance().removeToken();
+		try {
+			ResponseEntity<String> result = DefaultTest.getInstance().exchange("me"); // Usuario cadastrado no banco e logado
+		} catch (HttpClientErrorException ex) {
+			JSONObject json = new JSONObject(ex.getResponseBodyAsString());
+			Assert.assertEquals(Constants.TOKEN_NOT_SEND, json.getString("message"));
+			Assert.assertEquals(HttpStatus.UNAUTHORIZED.value(), json.getInt("errorCode"));
+		}
 	}
 	
 }

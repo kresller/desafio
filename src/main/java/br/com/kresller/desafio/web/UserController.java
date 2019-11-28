@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +72,15 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Integer id) {
 		user.setId(id);
 		return new ResponseEntity<User>(service.update(user), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/me"
+			, method = RequestMethod.GET
+			, consumes = MediaType.APPLICATION_JSON_VALUE
+			, produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<User> usuarioLogado(Authentication autentication) {
+		return new ResponseEntity<User>(service.findByLogin(autentication.getPrincipal().toString()), HttpStatus.OK);
 	}
 	
 }
