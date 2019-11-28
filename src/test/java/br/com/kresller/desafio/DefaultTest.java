@@ -64,6 +64,10 @@ public class DefaultTest {
 		return restTemplate.exchange(INITIAL_URL + url, HttpMethod.DELETE, entity, String.class);
 	}
 	
+	public ResponseEntity<String> delete(String url){
+		return restTemplate.exchange(INITIAL_URL + url, HttpMethod.DELETE, entity, String.class);
+	}
+	
 	public void addToken(String token){
 		headers.add("authorization", token);
 	}

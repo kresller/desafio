@@ -156,5 +156,11 @@ public class UserTest {
 
 		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
 	}
-
+	
+	@Test
+	public void test9DeleteUser() throws Exception {
+		ResponseEntity<String> result = DefaultTest.getInstance().delete("users/2", null);
+		Assert.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+	}
+	
 }
