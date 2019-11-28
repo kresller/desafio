@@ -24,7 +24,9 @@ Criar aplicação que exponha uma API RESTful de criação de usuários e carros
 
 10. Como usuário logado, quero poder apagar meu carro.
 
-11. Como usuário logado, quero poder atualizar os dados do meu carro, é necessário validar se os campos foram devidamente preenchidos e se a placa do veículo já existe.
+11. Como usuário logado, quero consultar um carro pelo id.
+
+12. Como usuário logado, quero poder atualizar os dados do meu carro, é necessário validar se os campos foram devidamente preenchidos e se a placa do veículo já existe.
 
 ### Soluções
 
@@ -43,14 +45,22 @@ JPA/Hibernate			| Foram criadas as entidades Car e User para persistir os dados 
 Banco de Dados			| Foi utilizado o banco de dados em memória H2.
 Testes					| Foram criadas 2 classes de testes, UserTest e CarTest responsáveis por subrir a aplicação e realizar os testes.
 
+Ao efetuar executar a aplicação, os dados disponíveis nos scripts schema.sql e data.sql serão executados, desta forma, teremos uma base inicial para visualização dos dados.
+
 ### Deploy
 
 1. Abrir o terminal do Git
 
 2. Acessar a pasta de sua preferência para download do projeto. Ex.: workspace do eclipse.
 
-3. Executa o comando: 
+3. Executa o comando abaixo para baixar o projeto: 
 ```
 git clone https://github.com/kresller/desafio.git
 ```
+
+4. Executa o comando abaixo para instalar a aplicação:
+```
+mvn install
+```
+Este comando executará os testes e efetuará o build da aplicação, que fica disponível dentro do diretório target.
 
