@@ -1,0 +1,2 @@
+INSERT INTO USER (FIRST_NAME, LAST_NAME, EMAIL, BIRTHDAY,LOGIN,PASSWORD,PHONE) VALUES ('kresller','silva','kresller@gmail.com','1984-01-05','kss','123456','11111111'),('User','UserLastName','user@gmail.com','1984-01-05','user','123456','11111111')
+INSERT INTO CAR (USER_ID, YEAR, LICENSE_PLATE, MODEL, COLOR) VALUES (1,'2009', 'ABC1234','Volkswagem','Preto'),(1,'2012', 'DEF5678','Chevrolet','Prata'),(2,'2004', 'GHU1234','Fiat','Verde'),(2,'2000', 'JKL','Chevrolet','Azul')
