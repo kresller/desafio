@@ -48,7 +48,18 @@ public class UserController {
 			, consumes = MediaType.APPLICATION_JSON_VALUE
 			, produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<User> createUser(@PathVariable("id") Integer id) {
+	public ResponseEntity<User> findUserById(@PathVariable("id") Integer id) {
 		return new ResponseEntity<User>(service.findOne(id), HttpStatus.OK);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/users/{id}"
+			, method = RequestMethod.DELETE
+			, consumes = MediaType.APPLICATION_JSON_VALUE
+			, produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity deleteUserById(@PathVariable("id") Integer id) {
+		service.delete(id);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 }

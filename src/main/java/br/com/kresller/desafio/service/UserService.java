@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.kresller.desafio.entity.Car;
 import br.com.kresller.desafio.entity.User;
+import br.com.kresller.desafio.exception.ChallengeException;
 import br.com.kresller.desafio.repository.CarRepository;
 import br.com.kresller.desafio.repository.UserRepository;
 import br.com.kresller.desafio.validator.ValidadorUtil;
