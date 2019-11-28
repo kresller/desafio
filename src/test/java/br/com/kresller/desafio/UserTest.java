@@ -32,7 +32,7 @@ public class UserTest {
 	}
 
 	@Test
-	public void test1Login() throws Exception {
+	public void test01Login() throws Exception {
 		AccountCredentials credentials = new AccountCredentials();
 		credentials.setUsername("kss");
 		credentials.setPassword("123456");
@@ -41,7 +41,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void test2InvalidLogin() throws Exception {
+	public void test02InvalidLogin() throws Exception {
 		AccountCredentials credentials = new AccountCredentials();
 		credentials.setUsername("kss");
 		credentials.setPassword("1234567");
@@ -57,7 +57,7 @@ public class UserTest {
 	 * Valida o tamanho da lista de usuário cadastrados no banco de dados.
 	 */
 	@Test
-	public void test3SizeListUsers() throws Exception {
+	public void test03SizeListUsers() throws Exception {
 
 		ResponseEntity<String> response = DefaultTest.getInstance().exchange("users");
 				
@@ -71,7 +71,7 @@ public class UserTest {
 	 * Cria um novo usuário e valida se ele foi persistido no banco de dados com sucesso.
 	 */
 	@Test
-	public void test4CreateNewUser() throws Exception {
+	public void test04CreateNewUser() throws Exception {
 		
 		
 		ResponseEntity<String> result = DefaultTest.getInstance().postForEntity("users", newUser);
@@ -93,7 +93,7 @@ public class UserTest {
 	 * @result Retorna erro de usuario já existe
 	 */
 	@Test
-	public void test5CreateSameEmailUser() throws Exception {
+	public void test05CreateSameEmailUser() throws Exception {
 		
 		newUser.setLogin("user9999");
 		try {
@@ -110,7 +110,7 @@ public class UserTest {
 	 * @result Retorna erro de email já existe
 	 */
 	@Test
-	public void test6CreateSameLoginUser() throws Exception {
+	public void test06CreateSameLoginUser() throws Exception {
 		newUser.setEmail("user9999@");
 		try {
 			DefaultTest.getInstance().postForEntity("users", newUser);
@@ -126,7 +126,7 @@ public class UserTest {
 	 * @result Usuário não cadastrado por falta de campos
 	 */
 	@Test
-	public void test7CreateMissingFieldUser() throws Exception {
+	public void test07CreateMissingFieldUser() throws Exception {
 		newUser.setFirstName(null);
 		try {
 			DefaultTest.getInstance().postForEntity("users", newUser);
@@ -141,7 +141,7 @@ public class UserTest {
 	 * Cria um novo usuário e valida se ele foi persistido no banco de dados com sucesso.
 	 */
 	@Test
-	public void test8FindUserById() throws Exception {
+	public void test08FindUserById() throws Exception {
 		newUser.setFirstName("UserTestCase FirstName");
 		
 		ResponseEntity<String> result = DefaultTest.getInstance().exchange("users/"+newUser.getId());
@@ -158,9 +158,21 @@ public class UserTest {
 	}
 	
 	@Test
-	public void test9DeleteUser() throws Exception {
+	public void test09DeleteUser() throws Exception {
 		ResponseEntity<String> result = DefaultTest.getInstance().delete("users/2", null);
 		Assert.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+	}
+	
+	@Test
+	public void test10UpdateUser() throws Exception {
+		newUser.setFirstName("FirstName Nome Atualizado");
+		newUser.setLastName("LastName Atualizado");
+
+		ResponseEntity<String> result = DefaultTest.getInstance().putForEntity("users/"+newUser.getId(), newUser);
+		
+		JSONObject json = new JSONObject(result.getBody());
+		Assert.assertEquals(newUser.getFirstName(), json.getString("firstName"));
+		Assert.assertEquals(newUser.getLastName(), json.getString("lastName"));
 	}
 	
 }

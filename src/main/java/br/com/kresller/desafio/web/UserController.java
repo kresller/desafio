@@ -62,4 +62,15 @@ public class UserController {
 		service.delete(id);
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
+	
+	@RequestMapping(value = "/users/{id}"
+			, method = RequestMethod.PUT
+			, consumes = MediaType.APPLICATION_JSON_VALUE
+			, produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Integer id) {
+		user.setId(id);
+		return new ResponseEntity<User>(service.update(user), HttpStatus.OK);
+	}
+	
 }
