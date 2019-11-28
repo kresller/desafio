@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,6 +49,16 @@ public class CarController {
 		car.setUserId(u.getId());
 		
 		return new ResponseEntity<Car>(service.save(car), HttpStatus.CREATED);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/cars/{id}", method = RequestMethod.DELETE
+	 , consumes = MediaType.APPLICATION_JSON_VALUE
+	 , produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity delete(@PathVariable("id") Integer id) {
+		service.delete(id);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
 }

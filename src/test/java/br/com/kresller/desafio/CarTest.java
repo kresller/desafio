@@ -121,5 +121,22 @@ public class CarTest {
 			Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), json.getInt("errorCode"));
 		}
 	}
+	
+	@Test
+	public void test07DeleteCar() throws Exception {
+		DefaultTest.getInstance().addToken(token);
+		ResponseEntity<String> response = DefaultTest.getInstance().delete("cars/" + newCar.getId(), newCar);
+		Assert.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+	}
+	
+	@Test
+	public void test08SizeListCars() throws Exception {
+
+		ResponseEntity<String> response = DefaultTest.getInstance().exchange("cars");
+				
+		org.json.JSONArray jo = new org.json.JSONArray(response.getBody());
+		Assert.assertEquals(2, jo.length());
+
+	}
 
 }
