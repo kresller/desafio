@@ -34,4 +34,13 @@ public class UserController {
 	public ResponseEntity<List<User>> listar() {
 		return new ResponseEntity<List<User>>(service.getAllCars(), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/users"
+			, method = RequestMethod.POST
+			, consumes = MediaType.APPLICATION_JSON_VALUE
+			, produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		return new ResponseEntity<User>(service.save(user), HttpStatus.CREATED);
+	}
 }
