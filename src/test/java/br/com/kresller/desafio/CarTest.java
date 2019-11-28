@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.kresller.desafio.entity.Car;
 import br.com.kresller.desafio.security.AccountCredentials;
@@ -66,6 +67,59 @@ public class CarTest {
 		org.json.JSONArray jo = new org.json.JSONArray(response.getBody());
 		Assert.assertEquals(2, jo.length());
 
+	}
+	
+	@Test
+	public void test03NewCar() throws Exception {
+		ResponseEntity<String> response = DefaultTest.getInstance().postForEntity("cars", newCar);
+
+		JSONObject jsonCar = new JSONObject(response.getBody());
+		Assert.assertEquals(newCar.getYear(), jsonCar.getInt("year"));
+		Assert.assertEquals(newCar.getLicensePlate(), jsonCar.getString("licensePlate"));
+		Assert.assertEquals(newCar.getModel(), jsonCar.getString("model"));
+		Assert.assertEquals(newCar.getColor(), jsonCar.getString("color"));
+
+		newCar.setId(jsonCar.getInt("id"));
+
+		Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+	}
+	
+	/**
+	 * Valida o tamanho da lista de usuário cadastrados no banco de dados.
+	 */
+	@Test
+	public void test04SizeListCars() throws Exception {
+
+		ResponseEntity<String> response = DefaultTest.getInstance().exchange("cars");
+				
+		org.json.JSONArray jo = new org.json.JSONArray(response.getBody());
+		Assert.assertEquals(3, jo.length());
+
+	}
+	
+	@Test
+	public void test05NewCarSameLicensePlate() throws Exception {
+		DefaultTest.getInstance().addToken(token);
+		try {
+			DefaultTest.getInstance().postForEntity("cars", newCar);
+		} catch (HttpClientErrorException ex) {
+			JSONObject json = new JSONObject(ex.getResponseBodyAsString());
+			Assert.assertEquals(Constants.ERROR_LICENSE_PLATE_EXISTS, json.getString("message"));
+			Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), json.getInt("errorCode"));
+		}
+	}
+
+	@Test
+	public void test06NewCarWithoutLicensePlate() throws Exception {
+		DefaultTest.getInstance().addToken(token);
+		newCar.setLicensePlate(null);
+		try {
+			DefaultTest.getInstance().postForEntity("cars", newCar);
+		} catch (HttpClientErrorException ex) {
+			JSONObject json = new JSONObject(ex.getResponseBodyAsString());
+			Assert.assertEquals(Constants.ERROR_MISSING_FIELDS, json.getString("message"));
+			Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), json.getInt("errorCode"));
+		}
 	}
 
 }
