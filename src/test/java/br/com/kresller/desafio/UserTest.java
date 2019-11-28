@@ -2,7 +2,6 @@ package br.com.kresller.desafio;
 
 import java.util.Date;
 
-import org.json.JSONObject;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -12,7 +11,6 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.kresller.desafio.entity.User;
 import br.com.kresller.desafio.security.AccountCredentials;
-import br.com.kresller.desafio.util.Constants;
 import junit.framework.Assert;
 
 @SuppressWarnings("deprecation")
@@ -50,6 +48,19 @@ public class UserTest {
 		} catch (HttpClientErrorException ex) {
 			Assert.assertEquals(HttpStatus.UNAUTHORIZED, ex.getStatusCode());
 		}
+
+	}
+	
+	/**
+	 * Valida o tamanho da lista de usuário cadastrados no banco de dados.
+	 */
+	@Test
+	public void test3SizeListUsers() throws Exception {
+
+		ResponseEntity<String> response = DefaultTest.getInstance().exchange("users");
+				
+		org.json.JSONArray jo = new org.json.JSONArray(response.getBody());
+		Assert.assertEquals(2, jo.length());
 
 	}
 
