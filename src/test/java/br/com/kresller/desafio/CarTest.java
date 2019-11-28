@@ -123,14 +123,25 @@ public class CarTest {
 	}
 	
 	@Test
-	public void test07DeleteCar() throws Exception {
+	public void test07FindCarById() throws Exception {
+		newCar.setLicensePlate("PDV-0625");
+		ResponseEntity<String> result = DefaultTest.getInstance().exchange("cars/"+newCar.getId());
+		
+		JSONObject json = new JSONObject(result.getBody());
+		Assert.assertEquals(newCar.getLicensePlate(), json.getString("licensePlate"));
+		Assert.assertEquals(newCar.getModel(), json.getString("model"));
+
+	}
+	
+	@Test
+	public void test08DeleteCar() throws Exception {
 		DefaultTest.getInstance().addToken(token);
 		ResponseEntity<String> response = DefaultTest.getInstance().delete("cars/" + newCar.getId(), newCar);
 		Assert.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
 	
 	@Test
-	public void test08SizeListCars() throws Exception {
+	public void test09SizeListCars() throws Exception {
 
 		ResponseEntity<String> response = DefaultTest.getInstance().exchange("cars");
 				
@@ -138,5 +149,9 @@ public class CarTest {
 		Assert.assertEquals(2, jo.length());
 
 	}
+	
+	
+	
+	
 
 }

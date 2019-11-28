@@ -61,4 +61,12 @@ public class CarController {
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
+	@RequestMapping(value = "/cars/{id}", method = RequestMethod.GET
+	 , consumes = MediaType.APPLICATION_JSON_VALUE
+	 , produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Car> buscar(@PathVariable("id") Integer id) {
+		return new ResponseEntity<Car>(service.findOne(id), HttpStatus.OK);
+	}
+	
 }
