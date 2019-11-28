@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.com.kresller.desafio.entity.Car;
+import br.com.kresller.desafio.entity.User;
 import br.com.kresller.desafio.exception.ChallengeException;
 import br.com.kresller.desafio.repository.CarRepository;
 import br.com.kresller.desafio.util.Constants;
@@ -43,6 +44,13 @@ public class CarService {
 	public void delete(Integer id) {
 		Car car = findOne(id);
 		repository.delete(car);
+	}
+	
+	public Car update(Car car){
+		Car retorno = null;
+		ValidadorUtil.getInstance().validate(car);
+		retorno = repository.save(car);
+		return retorno;
 	}
 	
 }

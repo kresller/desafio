@@ -150,7 +150,16 @@ public class CarTest {
 
 	}
 	
-	
+	@Test
+	public void test10UpdateCar() throws Exception {
+		newCar.setLicensePlate("ABC-0123");
+
+		ResponseEntity<String> result = DefaultTest.getInstance().putForEntity("cars/"+newCar.getId(), newCar);
+		JSONObject json = new JSONObject(result.getBody());
+		Assert.assertEquals(newCar.getLicensePlate(), json.getString("licensePlate"));
+		Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+		
+	}
 	
 	
 
