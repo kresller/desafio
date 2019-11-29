@@ -28,6 +28,8 @@ Criar aplicação que exponha uma API RESTful de criação de usuários e carros
 
 12. Como usuário logado, quero poder atualizar os dados do meu carro, é necessário validar se os campos foram devidamente preenchidos e se a placa do veículo já existe.
 
+13. Criação de um front-end para manutenção de usuário.
+
 ### Soluções
 
 O projeto foi desenvolvido utilizando a ferramenta Maven para deploy e automatização do build.

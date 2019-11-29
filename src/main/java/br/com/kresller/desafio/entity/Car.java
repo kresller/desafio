@@ -37,6 +37,14 @@ public class Car {
 	@Column(name="USER_ID")
 	private int userId;
 	
+	private int qtdUso;
+	
+	public int getQtdUso() {
+		return qtdUso;
+	}
+	public void setQtdUso(int qtdUso) {
+		this.qtdUso = qtdUso;
+	}
 	public int getUserId() {
 		return userId;
 	}

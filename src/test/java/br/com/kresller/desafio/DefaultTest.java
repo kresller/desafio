@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 public class DefaultTest {
 
 	protected String INITIAL_URL = "http://localhost:8080/api/";
+	
+	//protected String INITIAL_URL = "https://kresller-desafio.herokuapp.com/api/";
 
 	protected static RestTemplate restTemplate;
 

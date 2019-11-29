@@ -26,7 +26,7 @@ public class UserService {
 		super();
 	}
 
-	public List<User> getAllCars() {
+	public List<User> getAllUsers() {
 		return repository.findAll();
 	}
 

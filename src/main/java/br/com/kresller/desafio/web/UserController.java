@@ -28,16 +28,16 @@ public class UserController {
 	
 	@RequestMapping(value = "/users"
 			, method = RequestMethod.GET
-			, consumes = MediaType.APPLICATION_JSON_VALUE
+			//, consumes = MediaType.APPLICATION_JSON_VALUE
 			, produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<List<User>> listar() {
-		return new ResponseEntity<List<User>>(service.getAllCars(), HttpStatus.OK);
+		return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/users"
 			, method = RequestMethod.POST
-			, consumes = MediaType.APPLICATION_JSON_VALUE
+			//, consumes = MediaType.APPLICATION_JSON_VALUE
 			, produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -46,7 +46,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/users/{id}"
 			, method = RequestMethod.GET
-			, consumes = MediaType.APPLICATION_JSON_VALUE
+			//, consumes = MediaType.APPLICATION_JSON_VALUE
 			, produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<User> findUserById(@PathVariable("id") Integer id) {
@@ -56,7 +56,7 @@ public class UserController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/users/{id}"
 			, method = RequestMethod.DELETE
-			, consumes = MediaType.APPLICATION_JSON_VALUE
+			//, consumes = MediaType.APPLICATION_JSON_VALUE
 			, produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity deleteUserById(@PathVariable("id") Integer id) {

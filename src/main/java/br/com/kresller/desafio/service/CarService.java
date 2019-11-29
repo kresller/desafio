@@ -28,6 +28,7 @@ public class CarService {
 	}
 	
 	public Car findOne(Integer id) {
+		updateCarUse(id);
 		return repository.findOne(id);
 	}
 	
@@ -51,6 +52,12 @@ public class CarService {
 		ValidadorUtil.getInstance().validate(car);
 		retorno = repository.save(car);
 		return retorno;
+	}
+	
+	public void updateCarUse(int id){
+		Car car = repository.findOne(id);
+		car.setQtdUso(car.getQtdUso()+1);
+		repository.save(car);
 	}
 	
 }
