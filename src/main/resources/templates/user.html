@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link data-require="bootstrap@4.0.5" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+    <script data-require="bootstrap@4.0.5" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+    <script data-require="angularjs@1.6.2" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body class="container" ng-app="myApp" ng-controller="studentController" >
+    
+    <!--Form-->
+    <form ng-submit="createUser()">
+      <h4>Criacao de Usuario</h4>
+      
+      <div class="form-group">
+        <label class="control-label col-md-2">FirstName:</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="user.firstName" />
+        </div>
+      </div>
+     
+      <div class="form-group">
+        <label class="control-label col-md-2">LastName:</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="user.lastName" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="control-label col-md-2">Email:</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="user.email" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="control-label col-md-2">Birthday:</label>
+        <div class="col-md-4">
+            <input type="text" datetime="dd/MM/yyyy" class="form-control" ng-model="user.birthday" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="control-label col-md-2">Login:</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="user.login" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="control-label col-md-2">Password:</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="user.password" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="control-label col-md-2">Phone:</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="user.phone" />
+        </div>
+      </div>
+      
+      <div class="col-md-offset-2 col-md-10">
+      <input type="submit" value="submit" class="btn btn-success btn-sm" ng-show="submit" />    
+      <input type="button" value="update" ng-click="updateUser()" class="btn btn-success btn-sm" ng-show="update" />    
+      <input type="button" value="cancel" ng-click="cancelUpdate()" class="btn btn-danger btn-sm" ng-show="cancel" />    
+      </div>
+    </form>
+    <!--End Form-->
+    
+    <!--Users List-->
+    <br />
+    <h4>Users List</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>First Name</td>
+          <td>Last Name</td>
+          <td>Email</td>
+          <td>Birthday</td>
+          <td>Login</td>
+          <td>Password</td>
+          <td>Phone</td>
+          <td>Action Commands</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td>{{user.id}}</td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.birthday}}</td>
+          <td>{{user.login}}</td>
+          <td>{{user.password}}</td>
+          <td>{{user.phone}}</td>
+          
+          <td>
+            <button class="btn btn-success btn-sm" ng-click="editUser(user)">Edit</button>
+            <button class="btn btn-danger btn-sm" ng-click="deleteUser(user)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+ 
+    </table>
+    
+  </body>
+
+</html>
+<script>
+
+var header = new Headers({
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+});
+
+
+//Code goes here
+var myApp = angular.module('myApp', []);
+myApp.controller('studentController', ['$scope', '$http', function($scope, $http) {
+
+  //Buttons Settings
+  $scope.submit = true;
+  $scope.update = false;
+  $scope.cancel = false;
+  $scope.userid = true;
+
+//Getting Users List
+  //$http GET function
+  $http({
+    method: 'GET',
+	url: 'api/users'
+
+  }, headers=header).then(function successCallback(response) {
+    $scope.users = response.data;
+    
+  }, function errorCallback(response) {
+	  alert(response.data.message);
+  });
+  
+  $scope.listUser = function() {
+  $http({
+    method: 'GET',
+	url: 'api/users'
+
+  }).then(function successCallback(response) {
+    $scope.users = response.data;
+    
+  }, function errorCallback(response) {
+	  alert(response.data.message);
+  });
+  };
+
+  //Create New User
+  $scope.createUser = function() {
+    //$http POST function
+    $http({
+      method: 'POST',
+      url: 'api/users',
+      data: $scope.user
+    }).then(function successCallback(response) {
+	  alert("User has created Successfully")
+    }, function errorCallback(response) {
+      alert(response.data.message);
+    });
+  };
+
+
+  //Update User
+  $scope.updateUser = function() {
+    //$http PUT function
+    $http({
+      method: 'PUT',
+      url: 'api/users/' + $scope.user.id,
+      data: $scope.user
+    }).then(function successCallback(response) {
+      alert("User has updated Successfully")
+    }, function errorCallback(response) {
+    	alert(response.data.message);
+    });
+
+  };
+
+
+  //Delete User
+  $scope.deleteUser = function(user) {
+    //$http DELETE function
+    $http({
+
+      method: 'DELETE',
+      url: 'api/users/' + user.id
+
+    }).then(function successCallback(response) {
+      alert("User has deleted Successfully");
+      var index = $scope.users.indexOf(user);
+      $scope.users.splice(index, 1);
+
+    }, function errorCallback(response) {
+    	 alert(response.data.message);
+    });
+
+  };
+
+  //Set $scope on Edit button click
+  $scope.editUser = function(user) {
+
+    $scope.user = user;
+    $scope.submit = false;
+    $scope.update = true;
+    $scope.cancel = true;
+    $scope.userid = false;
+
+  };
+
+
+  //cancel Uodate
+  $scope.cancelUpdate = function() {
+    $scope.user = null;
+    $scope.submit = true;
+    $scope.update = false;
+    $scope.cancel = false;
+    $scope.userid = true;
+  };
+  
+
+}]);
+
+</script>
